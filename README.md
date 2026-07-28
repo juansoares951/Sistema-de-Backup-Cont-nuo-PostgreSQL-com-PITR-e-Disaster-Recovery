@@ -32,19 +32,54 @@ Implementação de uma solução completa de backup contínuo para PostgreSQL ut
 Este sistema implementa uma solução completa de backup contínuo para PostgreSQL 17 com suporte a Point-in-Time Recovery (PITR), utilizando WAL-G como engine de backup e Backblaze B2 como storage externo.
 
 
-flowchart TD
 
-A[PostgreSQL 17 VPS]
-A --> B[pg_wal]
-B --> C[archive_command]
-C --> D[WAL-G]
-D --> E[Backblaze B2]
+Arquitetura:
 
-E --> F[Backup FULL]
-E --> G[WAL Archive]
+PostgreSQL 17 (VPS)
+        |
+        | WAL (Write-Ahead Logs)
+        v
+WAL-G (backup engine / archive_command)
+        |
+        | protocolo S3 ( Blackbaze B2)
+        v
+Backblaze B2 (bucket: backupExsis)
 
-F --> H[PITR Restore]
-G --> H
+========================
+2. OBJETIVOS DO SISTEMA
+========================
+
+- Garantir backup contínuo do banco de dados
+- Permitir recuperação total (disaster recovery)
+- Permitir recuperação em qualquer ponto no tempo (PITR)
+- Armazenamento externo seguro (offsite)
+- Evitar perda de dados em falhas críticas
+- Automação completa sem intervenção manual
+- Controle de retenção de backups
+
+========================
+3. ESTRUTURA DO POSTGRESQL
+========================
+
+Diretório principal:
+
+/var/lib/postgresql/17/main
+
+Contém:
+- dados do banco (tablespaces)
+- índices
+- catálogo interno
+- configurações locais
+- diretório WAL (pg_wal)
+
+Acesso:
+
+sudo -u postgres ls /var/lib/postgresql/17/main
+
+Baixar WAL-G 
+
+![Download WAL-G](5_baixarWalG.png)
+
 
 
 
