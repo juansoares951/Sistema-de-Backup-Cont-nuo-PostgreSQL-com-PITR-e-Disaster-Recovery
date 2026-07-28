@@ -1162,6 +1162,9 @@ Resultado obtido:
 
  Estrutura PostgreSQL recuperada
 
+ <img width="1196" height="755" alt="image" src="https://github.com/user-attachments/assets/9422dbec-2536-49a9-9432-34914c87cbf5" />
+
+
 
 
 
