@@ -76,10 +76,9 @@ Acesso:
 
 sudo -u postgres ls /var/lib/postgresql/17/main
 
-Baixar WAL-G 
+### Baixar WAL-G
 
-![Download WAL-G](5_baixarWalG.png)
-
+![Download WAL-G](./5_baixarWalG.png)
 
 
 
