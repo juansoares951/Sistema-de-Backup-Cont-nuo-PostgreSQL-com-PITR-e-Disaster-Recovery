@@ -44,7 +44,7 @@ WAL-G (backup engine / archive_command)
         v
 Backblaze B2 (bucket: backupExsis)
 
-========================
+
 2. OBJETIVOS DO SISTEMA
 
 - Garantir backup contínuo do banco de dados
@@ -1023,31 +1023,21 @@ Fluxo validado:
 
 
 Backup FULL restaurado
-
-        |
-
+          |
 PostgreSQL inicia recovery
-
-        |
-
+          |
 Solicita WAL necessário
-
-        |
-
+          |
 WAL-G consulta Backblaze B2
-
-        |
-
+          |
 Segmentos WAL aplicados
-
-        |
-
+          |
 Banco retorna ao último ponto consistente
 
 
-========================================================
+
 17.8 COMANDOS UTILIZADOS PARA RECUPERAÇÃO EM DESASTRE
-========================================================
+
 
 
 Parar PostgreSQL:
@@ -1099,9 +1089,9 @@ sudo pg_ctlcluster 17 main start
 
 
 
-========================================================
+
 17.9 VALIDAÇÃO FINAL DO RESTORE
-========================================================
+
 
 
 Comandos de validação:
@@ -1146,7 +1136,7 @@ O processo de recuperação deve confirmar:
 - bancos disponíveis para acesso
 
 
-========================================================
+
 17.10 TESTE REAL EXECUTADO
 
 
