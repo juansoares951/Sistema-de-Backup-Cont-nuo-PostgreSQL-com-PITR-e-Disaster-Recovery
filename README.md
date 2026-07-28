@@ -122,7 +122,8 @@ Contém:
 - WALG_S3_PREFIX
 - WALG_COMPRESSION_METHOD
 
-  <img width="821" height="509" alt="12_configuraçãoArquivo" src="https://github.com/user-attachments/assets/cae21956-3edb-4d0c-85b2-86f1bddb0245" />
+<img width="821" height="509" alt="image" src="https://github.com/user-attachments/assets/1c8498cc-61d7-4910-b3cc-859ffbea7c15" />
+
 
 Verificação:
 
