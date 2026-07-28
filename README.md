@@ -78,7 +78,7 @@ sudo -u postgres ls /var/lib/postgresql/17/main
 
 ### Baixar WAL-G
 
-![Download WAL-G](./5_baixarWalG.png)
+<img width="805" height="54" alt="5_baixarWalG" src="https://github.com/user-attachments/assets/ebc3e484-6b53-4154-8d8b-75a4560b1ea8" />
 
 
 
