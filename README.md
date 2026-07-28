@@ -375,6 +375,9 @@ Executa diariamente:
 
 0 2 * * * /usr/local/bin/wal-g-cleanup.sh >> /var/log/wal-g-cleanup.log 2>&1
 
+<img width="851" height="550" alt="25_scriptLimpezaAtutomaticaBackupsAntigos" src="https://github.com/user-attachments/assets/5bccf5b2-a968-4a4d-a12d-f05fbc342d77" />
+
+
 
 10.2 BACKUP FULL
 
@@ -384,12 +387,15 @@ Executa diariamente:
 
 0 3 * * * /usr/local/bin/wal-g-full-backup.sh >> /var/log/wal-g-full-backup.log 2>&1
 
+<img width="849" height="550" alt="29_scriptBackupFullAutomatico" src="https://github.com/user-attachments/assets/4120038a-8ef9-4eab-a8cc-f872797f929a" />
+
 
 10.3 MONITORAMENTO
 
 Executa a cada 5 minutos:
 
 */5 * * * * /usr/local/bin/wal-archive-monitor.sh
+
 
 ========================
 11. MONITORAMENTO DO SISTEMA
@@ -482,7 +488,7 @@ Monitoramento:
   → Mitigado por retenção de múltiplos backups FULL (4 versões) + WAL contínuo
 
 16. MONITORAMENTO COM ZABBIX + GRAFANA
-========================
+
 
 Objetivo:
 
@@ -494,6 +500,9 @@ Monitorar continuamente a saúde do arquivamento WAL do PostgreSQL, permitindo v
 - utilização de CPU
 - utilização de memória
 - utilização de disco
+
+<img width="1374" height="441" alt="37_adicionadoZabbix" src="https://github.com/user-attachments/assets/06e3bac7-146d-4294-9f72-cdc080a75e68" />
+
 
 ========================================================
 16.1 SCRIPT DE COLETA
@@ -527,14 +536,6 @@ Tempo (em segundos) desde o último WAL arquivado.
 Execução manual:
 
 sudo bash /etc/zabbix/scripts/postgres_wal_metrics.sh
-
-Teste pelo Agent:
-
-/usr/sbin/zabbix_agent2 -t postgres.wal.metrics
-
-Resposta esperada:
-
-postgres.wal.metrics [s|966|0|42]
 
 ========================================================
 
@@ -647,6 +648,9 @@ Exemplo:
 Descrição:
 Tempo, em segundos, desde o último WAL arquivado.
 
+<img width="900" height="472" alt="41_LogColetaZabix" src="https://github.com/user-attachments/assets/171dbe1e-103b-4148-9292-659e5aa9f00d" />
+
+
 ========================================================
 16.5 GRAFANA
 ========================================================
@@ -666,6 +670,9 @@ Além disso, foram disponibilizadas métricas específicas do PostgreSQL:
 - WAL Delay
 
 Essas métricas são obtidas diretamente dos itens dependentes do Zabbix.
+
+<img width="1437" height="466" alt="40_criadoDashboardGrafana" src="https://github.com/user-attachments/assets/8a8251b0-ad94-43e5-b24f-e15b16271e56" />
+
 
 ========================================================
 16.6 BENEFÍCIOS DO MONITORAMENTO
@@ -1196,7 +1203,7 @@ Atualmente o sistema possui:
  Logs locais
  Health Check
  Monitoramento do crescimento do pg_wal
- Restore e backup validados em maquina local
+ Restore e backup validados em maquina de servidor local
 
 
 O ambiente está preparado para operação contínua, recuperação de desastres (Disaster Recovery) e restauração Point-in-Time Recovery (PITR).
