@@ -27,7 +27,6 @@ Implementação de uma solução completa de backup contínuo para PostgreSQL ut
 
 ========================================================
 1. VISÃO GERAL DA ARQUITETURA
-========================================================
 
 Este sistema implementa uma solução completa de backup contínuo para PostgreSQL 17 com suporte a Point-in-Time Recovery (PITR), utilizando WAL-G como engine de backup e Backblaze B2 como storage externo.
 
@@ -47,7 +46,6 @@ Backblaze B2 (bucket: backupExsis)
 
 ========================
 2. OBJETIVOS DO SISTEMA
-========================
 
 - Garantir backup contínuo do banco de dados
 - Permitir recuperação total (disaster recovery)
@@ -57,9 +55,9 @@ Backblaze B2 (bucket: backupExsis)
 - Automação completa sem intervenção manual
 - Controle de retenção de backups
 
-========================
+
 3. ESTRUTURA DO POSTGRESQL
-========================
+
 
 Diretório principal:
 
@@ -81,9 +79,9 @@ Processo de instalação do WAL-G utilizado no ambiente PostgreSQL 17.
 <img width="805" height="54" alt="5_baixarWalG" src="https://github.com/user-attachments/assets/ebc3e484-6b53-4154-8d8b-75a4560b1ea8" />
 
 
-========================
+
 4. CONFIGURAÇÃO DO POSTGRESQL
-========================
+
 
 Arquivo:
 
@@ -108,9 +106,9 @@ Função:
 - envia WAL diretamente ao WAL-G
 
 
-========================
+
 5. CONFIGURAÇÃO DO WAL-G
-========================
+
 
 Arquivo:
 
@@ -139,9 +137,8 @@ Função:
 - endpoint S3 compatível
 
   
-========================================================
 6. BACKBLAZE B2 STORAGE
-========================================================
+
 
 Bucket utilizado:
 
@@ -172,7 +169,7 @@ Onde os backups FULL ficam armazenados:
 - Esses backups são usados como ponto inicial para restauração (PITR)
 
 7. TIPOS DE BACKUP
-========================
+
 
 7.1 BACKUP FULL (BASE)
 
@@ -202,9 +199,9 @@ automática via archive_command
 <img width="816" height="324" alt="logs em tempo real" src="https://github.com/user-attachments/assets/a1627263-1da4-4a06-b9e3-71bf924552ec" />
 
 
-========================
+
 8. POLÍTICA DE RETENÇÃO
-========================
+
 
 Configuração atual:
 
@@ -224,9 +221,9 @@ Comportamento:
 - impede crescimento infinito do storage
 
 - 
-========================
+
 9. SCRIPTS IMPLEMENTADOS
-========================
+
 
 9.1 BACKUP FULL AUTOMÁTICO
 
@@ -272,7 +269,7 @@ Função:
 
 
 9.4 MONITORAMENTO DE CRESCIMENTO DO pg_wal (NOVO)
-========================
+
 
 Arquivo:
 
@@ -363,9 +360,9 @@ Este healthcheck é read-only (não invasivo), ou seja:
 - apenas coleta métricas e valida estados
 
 
-========================
+
 10. CRON JOBS (AUTOMAÇÃO)
-========================
+
 
 10.1 LIMPEZA DE BACKUP
 
@@ -397,9 +394,9 @@ Executa a cada 5 minutos:
 */5 * * * * /usr/local/bin/wal-archive-monitor.sh
 
 
-========================
+
 11. MONITORAMENTO DO SISTEMA
-========================
+
 
 Ver status do archiver:
 
@@ -422,9 +419,9 @@ sudo -u postgres psql -t -c "SELECT failed_count FROM pg_stat_archiver;"
 
 
 
-========================
+
 12. LOGS DO SISTEMA
-========================
+
 
 Backup FULL:
 
@@ -438,9 +435,9 @@ Monitoramento:
 
 /var/log/wal-archive-monitor.log
 
-========================
+
 13. FLUXO COMPLETO DO SISTEMA
-========================
+
 
 1. PostgreSQL gera transações
         |
@@ -456,9 +453,9 @@ Monitoramento:
         |
 7. PITR combina FULL + WAL para recuperação total
 
-========================
+
 14. SEGURANÇA
-========================
+
 
 - armazenamento externo (offsite)
 - credenciais isoladas em /etc/wal-g/env
@@ -468,9 +465,9 @@ Monitoramento:
 - retenção controlada de backups FULL
 - proteção contra perda total do servidor
 
-========================
+
 15. CENÁRIOS OPERACIONAIS E MITIGAÇÃO
-========================
+
 
 - Falha no WAL-G
   → Mitigado por monitoramento ativo + alertas por e-mail + logs automáticos
@@ -504,9 +501,9 @@ Monitorar continuamente a saúde do arquivamento WAL do PostgreSQL, permitindo v
 <img width="1374" height="441" alt="37_adicionadoZabbix" src="https://github.com/user-attachments/assets/06e3bac7-146d-4294-9f72-cdc080a75e68" />
 
 
-========================================================
+
 16.1 SCRIPT DE COLETA
-========================================================
+
 
 Arquivo:
 
@@ -537,11 +534,11 @@ Execução manual:
 
 sudo bash /etc/zabbix/scripts/postgres_wal_metrics.sh
 
-========================================================
+
 
 16.2 CONFIGURAÇÃO DO ZABBIX AGENT
 
-========================================================
+
 
 Arquivo:
 
@@ -555,9 +552,9 @@ Após alterações:
 
 sudo systemctl restart zabbix-agent2
 
-========================================================
+
 16.3 ITEM MESTRE (MASTER ITEM)
-========================================================
+
 
 Host:
 
@@ -585,9 +582,9 @@ Intervalo de coleta:
 
 Este item retorna uma única string contendo todas as métricas do WAL.
 
-========================================================
+
 16.4 ITENS DEPENDENTES
-========================================================
+
 
 A partir do item mestre "PostgreSQL WAL Metrics", o Zabbix cria três itens dependentes responsáveis por separar as métricas retornadas pelo script.
 
@@ -609,7 +606,7 @@ Descrição:
 Quantidade total de segmentos WAL arquivados com sucesso.
 
 
---------------------------------------------
+
 
 Métrica 2
 
@@ -629,7 +626,7 @@ Descrição:
 Quantidade total de falhas de arquivamento registradas pelo PostgreSQL.
 
 
---------------------------------------------
+
 
 Métrica 3
 
@@ -651,9 +648,9 @@ Tempo, em segundos, desde o último WAL arquivado.
 <img width="900" height="472" alt="41_LogColetaZabix" src="https://github.com/user-attachments/assets/171dbe1e-103b-4148-9292-659e5aa9f00d" />
 
 
-========================================================
+
 16.5 GRAFANA
-========================================================
+
 
 O Grafana foi integrado ao Zabbix utilizando o plugin oficial do Zabbix.
 
@@ -674,9 +671,9 @@ Essas métricas são obtidas diretamente dos itens dependentes do Zabbix.
 <img width="1437" height="466" alt="40_criadoDashboardGrafana" src="https://github.com/user-attachments/assets/8a8251b0-ad94-43e5-b24f-e15b16271e56" />
 
 
-========================================================
+
 16.6 BENEFÍCIOS DO MONITORAMENTO
-========================================================
+
 
 O monitoramento permite identificar rapidamente:
 
@@ -687,9 +684,9 @@ O monitoramento permite identificar rapidamente:
 - problemas de comunicação com o Backblaze B2
 - degradação do sistema operacional (CPU, RAM e Disco)
 
-========================================================
+
 17.PROCESSO DE RESTAURAÇÃO E VALIDAÇÃO DE BACKUP FULL + PREPARAÇÃO PARA PITR
-========================================================
+
 
 Esta seção documenta o teste real de recuperação realizado utilizando
 um backup armazenado no Backblaze B2 através do WAL-G.
@@ -704,9 +701,9 @@ O objetivo do teste foi validar:
 - funcionamento do processo PITR utilizando WAL
 
 
-========================================================
+
 17.1 VALIDAÇÃO DOS BACKUPS DISPONÍVEIS NO BACKBLAZE B2
-========================================================
+
 
 Antes do processo de restauração foi realizada a consulta dos backups
 disponíveis no storage remoto.
@@ -748,9 +745,9 @@ Estes backups representam os pontos base utilizados para recuperação
 completa do PostgreSQL.
 
 
-========================================================
+
 17.2 VALIDAÇÃO DETALHADA DO BACKUP ESCOLHIDO
-========================================================
+
 
 Foi selecionado o backup:
 
@@ -823,9 +820,9 @@ O backup possui informações completas de controle:
 O backup foi considerado apto para restauração.
 
 
-========================================================
+
 17.3 VALIDAÇÃO DA CADEIA WAL
-========================================================
+
 
 Antes da restauração foi validada a existência dos WALs necessários
 para recuperação.
@@ -872,9 +869,9 @@ A cadeia WAL estava disponível no storage remoto permitindo
 recuperação Point-In-Time Recovery (PITR).
 
 
-========================================================
+
 17.4 RESTAURAÇÃO DO BACKUP FULL
-========================================================
+
 
 O cluster PostgreSQL foi preparado para receber o backup restaurado.
 
@@ -947,9 +944,9 @@ O diretório PostgreSQL foi restaurado contendo:
 - pg_control
 
 
-========================================================
+
 17.5 VALIDAÇÃO DOS ARQUIVOS RESTAURADOS
-========================================================
+
 
 
 Comando executado:
@@ -979,9 +976,9 @@ Validação realizada:
 A estrutura física do cluster PostgreSQL foi restaurada corretamente.
 
 
-========================================================
+
 17.6 CONFIGURAÇÃO DO MODO RECOVERY
-========================================================
+
 
 
 Foi criado o arquivo:
@@ -1013,9 +1010,9 @@ O PostgreSQL foi preparado para iniciar em modo recovery,
 permitindo buscar WALs adicionais através do WAL-G.
 
 
-========================================================
+
 17.7 RESTAURAÇÃO DOS WALs DURANTE O RECOVERY
-========================================================
+
 
 
 Durante o processo de inicialização o PostgreSQL utiliza o WAL-G
@@ -1151,7 +1148,6 @@ O processo de recuperação deve confirmar:
 
 ========================================================
 17.10 TESTE REAL EXECUTADO
-========================================================
 
 
 Backup utilizado:
@@ -1177,9 +1173,9 @@ Resultado obtido:
 
 
 
-========================
+
 18. RESUMO FINAL
-========================
+
 
 Sistema completo de backup empresarial:
 
