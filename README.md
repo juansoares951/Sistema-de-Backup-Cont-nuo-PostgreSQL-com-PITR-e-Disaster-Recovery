@@ -927,6 +927,8 @@ INFO: Finished extraction of backup_label.tar.lz4
 
 Backup extraction complete.
 
+<img width="1160" height="599" alt="recuperacaoConcouidaBancos" src="https://github.com/user-attachments/assets/8fe288f2-c64a-4572-ad07-41631c4c3165" />
+
 
 Validação realizada:
 
